@@ -23,11 +23,11 @@ If you are developing a production application, we recommend using TypeScript wi
 
 <!-- Direct geocoding -->
 
-http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
+https://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
 
 
 
-Ex: http://api.openweathermap.org/geo/1.0/direct?q=London&limit=1&appid={API key}
+Ex: https://api.openweathermap.org/geo/1.0/direct?q=London&limit=1&appid={API key}
 
 respones = [
    {
