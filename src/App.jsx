@@ -27,7 +27,7 @@ function App() {
         setErrorMessage(null);
         setloading("");
         setshowErrorMessage("d-none");
-        fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
+        fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
         .then(data => data.json())
         .then(data => {
             if(data[0]?.lat != undefined){
