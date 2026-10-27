@@ -4,5 +4,5 @@ import { defineConfig } from 'vite'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base:"/progree_task_3/",
+  base:"/progree_task_3_weather_app/",
 })
