@@ -7,37 +7,41 @@ function App() {
     const [errorMessage , setErrorMessage] = useState(null);
     const [loading, setloading] = useState("d-none");
     const [showErrorMessage, setshowErrorMessage] = useState("d-none");
-    /* console.log(weatherData.data[0].temp);
-    console.log(weatherData.data[0].humidity);
-    console.log(weatherData.data[0].wind_speed); */
     let cityName;
     let lat;
     let lon;
-    function getWeatherData(lat , lon , city){
-        fetch(`https://api.openweathermap.org/data/4.0/onecall/current?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`)
-        .then(res => res.json())
-        .then(data => {
+    async function getWeatherData(lat , lon , city){
+        try{
+            const response = await fetch(
+                `https://api.openweathermap.org/data/4.0/onecall/current?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
+            );
+            
+            const data =  await response.json();
+
             data.data[0].city = city;
             setweatherData(data);
-        }).catch(error =>{
-                setErrorMessage(
+        }catch(error){
+            setErrorMessage(
                     error instanceof TypeError
                         ? "Unable to connect. Check your internet connection and try again."
                         : error.message
-                );
-                setshowErrorMessage("");
-                setloading("d-none");
-            }
-        );
+            );
+            setshowErrorMessage("");
+            console.error(error);
+        }finally{
+            setloading("d-none");
+        }
     }
-    function getDirectGeocoding(city){
+    async function getDirectGeocoding(city){
         setweatherData(null);
         setErrorMessage(null);
         setloading("");
         setshowErrorMessage("d-none");
-        fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`)
-        .then(data => data.json())
-        .then(data => {
+        try{
+            const response = await fetch(
+                `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
+            );
+            const data = await response.json();
             if(data[0]?.lat != undefined){
                 lat =  data[0].lat;
                 lon = data[0].lon;
@@ -46,16 +50,16 @@ function App() {
             }else{
                 erorrHandler(data);
             }
-        }).catch(error =>{
-                setErrorMessage(
-                    error instanceof TypeError
-                        ? "Unable to connect. Check your internet connection and try again."
-                        : error.message
-                );
-                setshowErrorMessage("");
-                setloading("d-none");
-            }
-        );
+        }catch(error){
+            setErrorMessage(
+                error instanceof TypeError
+                    ? "Unable to connect. Check your internet connection and try again."
+                    : error.message
+            );
+            setshowErrorMessage("");
+            setloading("d-none");
+            console.error(error);
+        }
     }
     function erorrHandler(data){
         setloading("d-none");
