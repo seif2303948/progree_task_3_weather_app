@@ -18,9 +18,17 @@ function App() {
         .then(res => res.json())
         .then(data => {
             data.data[0].city = city;
-            console.log(data.data[0]);
             setweatherData(data);
-        })
+        }).catch(error =>{
+                setErrorMessage(
+                    error instanceof TypeError
+                        ? "Unable to connect. Check your internet connection and try again."
+                        : error.message
+                );
+                setshowErrorMessage("");
+                setloading("d-none");
+            }
+        );
     }
     function getDirectGeocoding(city){
         setweatherData(null);
@@ -38,7 +46,16 @@ function App() {
             }else{
                 erorrHandler(data);
             }
-        })
+        }).catch(error =>{
+                setErrorMessage(
+                    error instanceof TypeError
+                        ? "Unable to connect. Check your internet connection and try again."
+                        : error.message
+                );
+                setshowErrorMessage("");
+                setloading("d-none");
+            }
+        );
     }
     function erorrHandler(data){
         setloading("d-none");
